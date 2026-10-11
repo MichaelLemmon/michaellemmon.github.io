@@ -325,16 +325,10 @@
         updateStatus('connecting', 'Connecting...');
 
         // Request Bluetooth Device
-        const bleDevice = await navigator.bluetooth.requestDevice({
-          filters: [
-            { namePrefix: 'tsc' },
-            { namePrefix: 'TSC' }
-          ]
+        bleDevice = await navigator.bluetooth.requestDevice({
+          acceptAllDevices: true,
+          optionalServices: [selectedUuid.toLowerCase()]
         });
-        
-        // Display the name in your app UI
-        const friendlyName = bleDevice.name || 'TSC DA210 Printer';
-        document.getElementById('status').innerText = `Connected to: ${friendlyName}`;
 
         bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
 
